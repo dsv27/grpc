@@ -6,7 +6,8 @@ import akka.stream.scaladsl.{Sink, Source}
 import io.grpc.{ManagedChannel, ManagedChannelBuilder}
 
 import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /***
    *   Реализуйте методы HelloWorldStubDecorator
@@ -16,15 +17,19 @@ import scala.concurrent.duration.Duration
 object DecoratorTask extends App {
 
   val channel: ManagedChannel = ManagedChannelBuilder
-    .forAddress("localhost", 8080)
+    .forAddress("localhost", 18080)
     .usePlaintext()
     .build()
 
   val stub: HelloWorldStub = new HelloWorldStub(channel)
 
   class HelloWorldStubDecorator(underlining: HelloWorld) {
-    def hello(request: HelloRequest): scala.concurrent.Future[HelloResponse] = ???
-    def helloStream(stream: Source[HelloRequest, akka.NotUsed]): Source[HelloResponse, akka.NotUsed] = ???
+    def hello(request: HelloRequest): scala.concurrent.Future[HelloResponse] = Future {
+        HelloResponse(s"Read message -> ${request.msg}")
+      }
+    def helloStream(stream: Source[HelloRequest, akka.NotUsed]): Source[HelloResponse, akka.NotUsed] = stream.map {
+        request => HelloResponse(s"Read message as stream ->  ${request.msg}")
+      }
   }
 
   val helloWorldClient = new HelloWorldStubDecorator(stub)
