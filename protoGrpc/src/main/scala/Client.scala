@@ -9,7 +9,7 @@ import scala.concurrent.duration.Duration
 object Client extends App {
 
   val channel: ManagedChannel = ManagedChannelBuilder
-    .forAddress("localhost", 8080)
+    .forAddress("localhost", 18080)
     .usePlaintext()
     .build()
 

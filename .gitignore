@@ -1,7 +1,13 @@
 /.idea/
+/project/project/
 /project/target/
+/project/.bloop/
 /target/
 /akkaGrpc/target/
 /protoGrpc/target/
 /util/
 /core/
+/.bloop/
+/.metals/
+/.vscode/
+/.bsp/

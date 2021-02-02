@@ -22,7 +22,7 @@ object Server extends App {
     }
   }
 
-  NettyServerBuilder.forPort(8080)
+  NettyServerBuilder.forPort(18080)
     .addService(HelloWorld.bindService(service, ExecutionContext.Implicits.global))
     .build()
     .start()
